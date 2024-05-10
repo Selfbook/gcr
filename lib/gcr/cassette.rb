@@ -80,9 +80,9 @@ class GCR::Cassette
     GCR.stub.class.class_eval do
       alias_method :orig_request_response, :request_response
 
-      def request_response(*args)
-        orig_request_response(*args).tap do |resp|
-          req = GCR::Request.from_proto(*args)
+      def request_response(*args, **options)
+        orig_request_response(*args, **options).tap do |resp|
+          req = GCR::Request.from_proto(*args, **options)
           if GCR.cassette.reqs.none? { |r, _| r == req }
             GCR.cassette.reqs << [req, GCR::Response.from_proto(resp)]
           end
@@ -104,8 +104,8 @@ class GCR::Cassette
     GCR.stub.class.class_eval do
       alias_method :orig_request_response, :request_response
 
-      def request_response(*args)
-        req = GCR::Request.from_proto(*args)
+      def request_response(*args, **options)
+        req = GCR::Request.from_proto(*args, **options)
         GCR.cassette.reqs.each do |other_req, resp|
           return resp.to_proto if req == other_req
         end

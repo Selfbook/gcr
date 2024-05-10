@@ -20,7 +20,7 @@ describe GCR do
   describe "#with_cassette" do
     it "records" do
       # Record
-      subject.with_cassette("foo") do
+      subject.with_cassette("boo") do
         expect(Greetings::Client.hello("bob")).to eq("resp 0 — hello bob")
         expect(Greetings::Client.hello("sue")).to eq("resp 1 — hello sue")
         expect(Greetings::Client.hello("sue")).to eq("resp 2 — hello sue")
@@ -32,7 +32,7 @@ describe GCR do
       Greetings::Server.stop
 
       # Play
-      subject.with_cassette("foo") do
+      subject.with_cassette("boo") do
         expect(Greetings::Client.hello("bob")).to eq("resp 0 — hello bob")
         expect(Greetings::Client.hello("sue")).to eq("resp 1 — hello sue")
         expect(Greetings::Client.hello("sue")).to eq("resp 1 — hello sue")
